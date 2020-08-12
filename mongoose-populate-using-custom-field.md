@@ -11,9 +11,6 @@ mongoose uses the `_id` field from the specified `ref` model
 as a **foreign field**, we don't have an option to choose a
  different field as a foreign field.
 
-In the following schema, `authorSchema.books` field values must 
-be `_ids` of `Book` model's document.
-
 ```javascript
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -32,9 +29,8 @@ const Author = mongoose.model('Author', authorSchema);
 const Book = mongoose.model('Book', bookSchema);
 ```
 
-> The `authorSchema.books` field doesn't have to be an array. It could be just an object if you store only one Book.
-
-Let's assume we have the following data in our database.
+In the above schema, `authorSchema.books` field values must 
+be `_ids` of `Book` model's document. Let's assume we have the following data in our database.
 
 ```javascript
 // `Book` model
@@ -78,12 +74,12 @@ const author = await Author.find({ name: 'foo' }).populate('books').exec();
 ```
 
 The `.populate()` method takes a `string` argument 
-**(the field name to populate. In the above query it was `books` field from `Author` schema)**
-and replaces each `_ids` value with the matched `Book` document. 
+**(the field name to populate. In the above query it's `books` field from `Author` schema)**
+and replaces each `_ids` value with the matched `Book` document.
 
 When using the `ref` option, the foreign field is always `_id`, 
 but sometimes we might have to form a relationship with a different 
-field (non _id field). Let's take a look at the following schema.
+field (non `_id` field). Let's take a look at the following schema.
 
 ```javascript
 const mongoose = require('mongoose');
@@ -108,8 +104,8 @@ For the above schema we can't use the ref option since the `bookSchema.isbn`
 field stores string value of `isbnSchema.code`, not the `_id` 
 value of `Isbn` document.
 
-If the `ref` option provides a way to choose a custom field as a 
-foreign field, then we could have used the `ref` to form a relationship.
+If the `ref` option provides a way to choose a foreign field, 
+then we could have used the `ref` to form a relationship.
 Instead, mongoose provides another feature for this exact use case. 
 It's called [Virtuals](https://mongoosejs.com/docs/populate.html#populate-virtuals). 
 
@@ -118,7 +114,7 @@ It's called [Virtuals](https://mongoosejs.com/docs/populate.html#populate-virtua
 
 bookSchema.virtual('someVirtualName', {
   ref: 'Isbn', // The model to use
-  localField: 'name', // `bookSchema.name`
+  localField: 'isbn', // `bookSchema.isbn`
   foreignField: 'code', // `isbnSchema.code`
 });
 
@@ -141,7 +137,7 @@ const isbns = [
 ```
 
 With the following query, we can populate `bookSchema.isbn` field's `string` 
-value with the actual `Isbn` 
+value with the actual `Isbn` document.
 
 ```javascript
 const book = await Book.find({ title: 'Harry Potter' }).populate('someVirtualName').exec();
