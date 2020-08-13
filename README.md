@@ -1,6 +1,10 @@
-# Today I learned
+# Thoughts
 
-Project description coming soon...
+Thoughts is my mini blog. I'm writing this down to:
+
+* Document it for future reference.
+* Learn from your feedback.
+* Share it with you.
 
 ### Posts
 
