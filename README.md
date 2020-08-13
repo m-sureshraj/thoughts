@@ -1,6 +1,6 @@
 # Thoughts
 
-Thoughts is my mini blog. I'm writing this down to:
+"Thoughts" is my mini-blog. I'm writing this down to:
 
 * Document it for future reference.
 * Learn from your feedback.
