@@ -3,7 +3,7 @@
 Mongoose [document](https://mongoosejs.com/docs/populate.html) says,
 > Population is the process of automatically replacing the specified paths in the document with document(s) from other collection(s).
 
-In the mongoose, we can form relationships between collections 
+In Mongoose, we can form relationships between collections 
 using the `ref` option. With the `ref` option, we can tell the mongoose to which model it should use during the population.
 
 However, when forming relationships using the `ref` option, 
@@ -73,9 +73,9 @@ const author = await Author.find({ name: 'foo' }).populate('books').exec();
 }
 ```
 
-The `.populate()` method takes a `string` argument 
-**(the field name to populate. In the above query it's `books` field from `Author` schema)**
-and replaces each `_ids` value with the matched `Book` document.
+The `.populate()` method takes a `string` argument and replaces each 
+`_ids` value with the matched `Book` document.
+In the above query, it's `books` field from the `Author` schema.
 
 When using the `ref` option, the foreign field is always `_id`, 
 but sometimes we might have to form a relationship with a different 
@@ -136,8 +136,7 @@ const isbns = [
 ];
 ```
 
-With the following query, we can populate `bookSchema.isbn` field's `string` 
-value with the actual `Isbn` document.
+Let's execute the following query.
 
 ```javascript
 const book = await Book.find({ title: 'Harry Potter' }).populate('someVirtualName').exec();
@@ -146,20 +145,78 @@ const book = await Book.find({ title: 'Harry Potter' }).populate('someVirtualNam
 
 {
   title: 'Harry Potter',
-  isbn: {
+  isbn: '100',
+  someVirtualName: [{
     code: '100',
-    country: 'USA',
+    country: 'USA'
+  }]
+}
+```
+
+The query and the output are pretty self-explanatory. When using virtual, we should pass 
+the virtual name as an argument to the `.populate()` method. 
+This time the `.populate()` won't touch any existing fields. Instead, it 
+creates a new field _(someVirtualName)_ and adds matched documents to it.
+When there are no matched documents, it won't create a new field.
+
+By default, the new field's value is an `array`, even if it's matched a single document. 
+We can alter this behavior by adding the following property to the `.virtual()` method's options object.
+
+```javascript
+bookSchema.virtual('someVirtualName', {
+  ...
+  justOne: true,
+});
+
+// console.log(book);
+
+{
+  title: 'Harry Potter',
+  isbn: '100',
+  someVirtualName: {
+    code: '100',
+    country: 'USA'
   }
 }
 ```
 
-This time we must pass our custom virtual name **(someVirtualName)**
-as an argument to the `.populate()` method. Note that the `.virtual()`
-method's options object has a few more useful 
-[properties](https://mongoosejs.com/docs/populate.html#populate-virtuals) 
-to control method behavior.
+Note that the options object has a few more useful 
+[properties](https://mongoosejs.com/docs/populate.html#populate-virtuals) to control the method behavior.
+Also, It's possible to define multiple virtual on the same schema.
 
-Here is the complete code.
+```javascript
+bookSchema.virtual('virtualOne', {});
+bookSchema.virtual('virtualTwo', {});
+
+const book = await Book.find({}).populate('virtualOne virtualTwo').exec();
+
+// or we can chain the `.populate()` method
+
+const book = await Book.find({})
+  .populate('virtualOne')
+  .populate('virtualTwo')
+  .exec();
+```
+
+When creating a virtual, we can't use **any** existing local field name as a virtual name. 
+If we try, Mongoose will throw an exception.
+
+```javascript
+const bookSchema = Schema({
+  title: String,
+  isbn: String,
+});
+
+bookSchema.virtual('isbn', { ... });
+```
+
+```
+Error: Virtual path "isbn" conflicts with a real path in the schema
+  at Schema.virtual (/home/suresh/some-project/node_modules/mongoose/lib/schema.js:1644:11)
+  at Schema.virtual (/home/suresh/some-project/node_modules/mongoose/lib/schema.js:1603:26)
+```
+
+### Here is the complete code
 
 ```javascript
 // book.repo.js
