@@ -3,7 +3,7 @@
 
 ![Presentation poster](./media/nvm-poster.png)
 
-Earlier this year (January 2021), I did my very first public talk.
+Earlier this year (January 2021), I got the privilege to do my first public tech talk.
 I presented "How **NVM works under the hood**" in the [Colombo JavaScript meetup](https://www.meetup.com/Colombo-JS-Meetup/).
 The goal of this presentation is to explain how NVM manages multiple versions of Node.js internally.
 
