@@ -10,4 +10,4 @@
 
 * 07, August 2020 - [Mongoose populate using custom fields (Populate Virtual)](./mongoose-populate-using-custom-field.md)
 * 21, January 2021 - [Node Version Manager (NVM) under the hood](./nvm-under-the-hood.md)
-* Gracefully cleanup configuration files (WIP)
+* 20, March 2021- [Gracefully clean up configuration files in Node.js based CLI applications](./cleanup-configuration-files.md)
