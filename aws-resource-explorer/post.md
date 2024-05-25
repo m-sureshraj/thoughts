@@ -5,8 +5,8 @@ It's none other than [Amazon Resource Explorer](https://docs.aws.amazon.com/reso
 It's a free service to discover all resources across regions and accounts.
 
 After enabling the service, it started to index the resources. About 10 minutes later, 
-the default view displayed around 600+ 🤯resources in all 17 regions that are enabled by default. 
-Some resources had been created in regions that I had never switched to in the console.
+the default view displayed around 600+ 🤯 resources in all 17 regions that are enabled by default. 
+Some resources had been created in regions I had never switched to in the console.
 
 ![Resource Count](./resource-count.jpeg)
 
@@ -19,7 +19,7 @@ So, I didn't panic too much 😜, but seeing some resources with the following c
 
 So, I slowly started digging into these resources to understand their use. I knew each region had the VPC enabled by default, 
 but I didn't know much about the resources associated with them. There were several resources related to Redis, ElastiCache, Athena, etc. 
-To make it more confusing, the resource count was not consistent across regions that I had never used.
+To make it more confusing, the resource count was inconsistent across regions I had never used.
 
 In the end, I managed to understand that all of these resources, except the ones I created, were created by AWS by default. 
 The info help sidebar was helpful in understanding them, and many of them can’t be deleted as well.
