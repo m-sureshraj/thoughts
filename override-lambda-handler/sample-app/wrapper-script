@@ -1,0 +1,6 @@
+#! /bin/bash
+
+echo "_HANDLER => $_HANDLER"
+
+export _HANDLER="override.handler"
+exec "$@"

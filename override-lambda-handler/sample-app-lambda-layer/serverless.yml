@@ -1,0 +1,32 @@
+org: sureshraj
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: override-lambda-handler-layer
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-west-2
+  stage: dev
+
+layers:
+  WrapperScript:
+    path: ./layer
+    description: "Wrapper script to override the Lambda handler"
+
+package:
+  patterns:
+    - '!node_modules'
+    - '!package-lock.json'
+
+functions:
+  demo:
+    handler: ./src/original.handler
+    layers:
+      # https://www.serverless.com/framework/docs/providers/aws/guide/layers#using-your-layers
+      - !Ref WrapperScriptLambdaLayer
+    environment:
+      AWS_LAMBDA_EXEC_WRAPPER: /opt/wrapper-script
+    events:
+      - httpApi:
+          path: /
+          method: get

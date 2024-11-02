@@ -13,3 +13,4 @@
 * 15, June 2021- [Gracefully clean up configuration files in Node.js based CLI applications](./cleanup-configuration-files.md)
 * 30, April 2024 - [Watch out when using Lambda event filtering](./watch-out-when-using-lambda-event-filtering/post.md)
 * 25, May 2024 - [How Amazon Resource Explorer Gave Me a Mini Heart Attack 💔](./aws-resource-explorer/post.md)
+* 18, Nov 2024 - [AWS Lambda: Dynamically Overriding the Handler](./override-lambda-handler/post.md)

@@ -1,0 +1,4 @@
+node_modules
+.serverless
+
+!layer/nodejs/node_modules
