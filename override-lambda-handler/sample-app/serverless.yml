@@ -1,0 +1,26 @@
+org: sureshraj
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: override-lambda-handler
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-west-2
+  stage: dev
+
+package:
+  patterns:
+    - wrapper-script
+    - override.js
+    - '!node_modules'
+    - '!package-lock.json'
+
+functions:
+  demo:
+    handler: original.handler
+    environment:
+      AWS_LAMBDA_EXEC_WRAPPER: /var/task/wrapper-script
+    events:
+      - httpApi:
+          path: /
+          method: get

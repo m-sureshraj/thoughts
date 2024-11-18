@@ -1,0 +1,17 @@
+{
+  "name": "override-lambda-handler-via-lambda-layer",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "pack": "sls package",
+    "remove": "sls remove",
+    "deploy": "sls deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^4.4.5"
+  }
+}
