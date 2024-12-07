@@ -8,7 +8,7 @@ and it sparked my curiosity to understand how it works and the concept behind it
 
 This post aims to share how this technique works, along with some additional 
 insights I learned during the investigation, specifically within the `Node.js` 
-runtime in AWS Lambda.
+runtime in AWS Lambda. Let's get started!
 
 <br>
 
@@ -147,7 +147,7 @@ exec "$@"
 It then executes the original Lambda runtime startup command with all the original parameters passed to it. 
 (e.g., `exec "$@"`  → `/var/lang/bin/node --expose-gc …`)
 
-Lastly, here’s the code that both functions share. The response returns the current value of the `_HANDLER` environment variable. 
+Lastly, here’s the code that both handlers share. The response returns the current value of the `_HANDLER` environment variable. 
 This confirms which function was executed.
 
 ```javascript
@@ -216,7 +216,7 @@ Calling the endpoint again should run the `handler` function from the `original.
 ## Deploy the wrapper script as Lambda layer
 
 This section explains how to deploy the override logic as a Lambda layer, which is more practical than deploying it 
-as part of the application code, as shown in the sample-app. Using a layer allows external tools to override the 
+as part of the application code, as shown in the [sample-app](./sample-app). Using a layer allows external tools to override the 
 handler and introduce new functionalities, which can be easily integrated into the function. 
 The [Real world use case](#real-world-use-case) section explores a tool that uses this method effectively.
 
@@ -327,10 +327,11 @@ I learned the handler-overriding technique that we discussed in this post from a
 locally on our computers, while they’re deployed in AWS.
 
 ![Live Lambda Debugger](./media/live-lambda-debugger.png)<br>
-[Image Source](https://www.lldebugger.com/assets/architecture.drawio.BmD-AGGn.png)
+[Source](https://www.lldebugger.com/assets/architecture.drawio.BmD-AGGn.png)
 
 It works by attaching a Lambda layer with a wrapper script to the deployed function, which overrides the original 
 handler with custom handler code. When the function is invoked, it runs the custom handler, which communicates 
 with AWS IoT to transfer messages between the custom handler and the local machine, enabling the deployed 
 function’s code to be executed locally via Node’s Worker Thread. Refer to this 
-[section](https://www.lldebugger.com/#how-it-works) for a detailed explanation of how the tool works.
+[section](https://github.com/ServerlessLife/lambda-live-debugger?tab=readme-ov-file#how-it-works) 
+for a detailed explanation of how the tool works.
